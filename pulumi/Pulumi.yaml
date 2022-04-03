@@ -1,0 +1,3 @@
+name: infraestructura
+runtime: nodejs
+description: A minimal OpenStack TypeScript Pulumi program

@@ -1,0 +1,14 @@
+- hosts: master
+  become: yes
+  become_user: root
+  gather_facts: True
+
+
+  tasks:
+    - name: Mostrar salida
+      command: cat part-r-00000
+      register: content
+
+    - name: Mostrar salida
+      debug:
+        var: content.stdout

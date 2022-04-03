@@ -1,0 +1,40 @@
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: True
+
+  tasks:
+    - name: Descargar Hadoop-3.2.2 al directorio /tmp
+      get_url:
+        url: "https://dlcdn.apache.org/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz"
+        dest: "/tmp/hadoop-3.3.2.tar.gz"
+    - name: Descomprimir hadoop-3.2.2.tar.gz en directorio /tmp
+      ansible.builtin.unarchive:
+        src: /tmp/hadoop-3.3.2.tar.gz
+        dest: /tmp
+        remote_src: yes
+    - name: Mover el directiro /tmp/hadoop-3.3.2 hasta /usr/local/hadoop
+      command: mv /tmp/hadoop-3.3.2 /usr/local/hadoop
+    - name: Cambiar el propietario del directorio recursivamente
+      ansible.builtin.file:
+        path: /usr/local/hadoop
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+    - name: Añadir hadoop home en .bashrc
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/.bashrc
+        line: export HADOOP_HOME=/usr/local/hadoop
+    - name: Añadir path de ejecución de los comando Hadoop en .bashrc
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/.bashrc
+        line: export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+    - name: Añadir java home en .bashrc
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/.bashrc
+        line: export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    - name: Añadir java home en hadoop-env.sh
+      ansible.builtin.lineinfile:
+        path: /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+        line: export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64

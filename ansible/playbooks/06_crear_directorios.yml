@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+    - name: Crear el directorio de metadatos datanode
+      file:
+        path: "/home/ubuntu/hadoopdata/hdfs/datanode"
+        state: directory
+
+    - name: Crear el directorio de metadatos namenode
+      file:
+        path: "/home/ubuntu/hadoopdata/hdfs/namenode"
+        state: directory

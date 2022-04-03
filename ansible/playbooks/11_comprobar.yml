@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+    - name: Consultar el estado de los servicios Hadoop
+      command: jps
+      register: hadoop_status
+      ignore_errors: yes
+
+    - name: Stdout el estado de los servicios hadoop
+      debug:
+        var: hadoop_status.stdout

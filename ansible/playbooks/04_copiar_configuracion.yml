@@ -1,0 +1,42 @@
+- hosts: all
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+    - name: Copiar el archivo de configuración Core-Site.XML
+      ansible.builtin.template:
+        src: core-site.j2
+        dest: /usr/local/hadoop/etc/hadoop/core-site.xml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+    - name: Copiar el archivo de configuración HDFS-Site.XML
+      ansible.builtin.copy:
+        src:  hdfs-site.xml
+        dest: /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+    - name: Copiar el archivo de configuración MapRed-Site.XML
+      ansible.builtin.copy:
+        src:  mapred-site.xml
+        dest: /usr/local/hadoop/etc/hadoop/mapred-site.xml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+    - name: Copiar el archivo de configuración Yarn-Site.XML
+      ansible.builtin.template:
+        src:  yarn-site.j2
+        dest: /usr/local/hadoop/etc/hadoop/yarn-site.xml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+    - name: Copiar el fichero con la clave privada
+      ansible.builtin.copy:
+        src:  id_rsa
+        dest: /home/ubuntu/.ssh/id_rsa
+        owner: ubuntu
+        group: ubuntu
+        mode: '0600'

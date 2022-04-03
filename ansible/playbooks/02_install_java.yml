@@ -1,0 +1,19 @@
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: True
+
+  tasks:
+    - name: Instalar el paquete openjdk-11-jdk
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - openjdk-11-jdk
+    - name: Comprobar el estado de la instalación de Java
+      command: java -version
+      register: java_status
+      ignore_errors: yes
+    - name: Depurar el estado de la instalación de Java
+      debug:
+        var: java_status.stderr

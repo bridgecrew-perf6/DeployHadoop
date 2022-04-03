@@ -1,0 +1,14 @@
+- import_playbook: playbooks/00_update.yml
+- import_playbook: playbooks/01_modificar_hosts.yml
+- import_playbook: playbooks/02_install_java.yml
+- import_playbook: playbooks/03_install_hadoop.yml
+- import_playbook: playbooks/04_copiar_configuracion.yml
+- import_playbook: playbooks/05_configure_workers.yml
+- import_playbook: playbooks/06_crear_directorios.yml
+- import_playbook: playbooks/07_formatear.yml
+- import_playbook: playbooks/08_iniciar_dfs.yml
+- import_playbook: playbooks/09_iniciar_yarn_m.yml
+- import_playbook: playbooks/10_iniciar_yarn_w.yml
+- import_playbook: playbooks/11_comprobar.yml
+- import_playbook: playbooks/12_parar.yml
+- import_playbook: playbooks/13_test.yml

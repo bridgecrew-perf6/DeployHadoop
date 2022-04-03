@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: True
+
+
+  tasks:
+    - name: Add to hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+      with_items:
+              - '{{ master_private_ip }} {{ master_name }}'
+              - '{{ worker1_private_ip }} {{ worker1_name }}'
+              - '{{ worker2_private_ip }} {{ worker2_name }}'
+              - '{{ worker3_private_ip }} {{ worker3_name }}'

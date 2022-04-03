@@ -1,0 +1,22 @@
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: True
+
+  tasks:
+    - name: Actualizar el repositorio apt de Ubuntu
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: Actualizar los paquetes de Ubuntu
+      apt: upgrade=dist force_apt_get=yes
+    - name: Comprobar si es necesario reiniciar el servidor
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+    - name: Reiniciar si el kernel ha sido actualziado
+      reboot:
+        msg: "Reboot iniciado por Ansible debido a una actualización del kernel"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists

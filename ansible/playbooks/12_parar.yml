@@ -1,0 +1,11 @@
+- hosts: master
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+    - name: Parar los servicios dfs
+      command: /usr/local/hadoop/sbin/stop-dfs.sh
+    - name: Parar los servicios yarn
+      command: /usr/local/hadoop/sbin/stop-yarn.sh

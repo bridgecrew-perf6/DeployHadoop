@@ -1,0 +1,13 @@
+- hosts: master
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+    - name: formatear el sistema de ficheros HDFS
+      command: /usr/local/hadoop/bin/hdfs namenode -format
+      register: hdfs_namenode_format
+    - name: Debug OS Name
+      debug:
+        var: hdfs_namenode_format.stdout

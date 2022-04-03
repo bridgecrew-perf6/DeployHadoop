@@ -1,0 +1,19 @@
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: True
+
+
+  tasks:
+    - name: Add to hosts
+      ansible.builtin.lineinfile:
+        path: /usr/local/hadoop/etc/hadoop/workers
+        regexp: "localhost"
+        state: absent
+      ansible.builtin.lineinfile:
+        path: /usr/local/hadoop/etc/hadoop/workers
+        line: "{{ item }}"
+      with_items:
+              - '{{ worker1_name }}'
+              - '{{ worker2_name }}'
+              - '{{ worker3_name }}'
